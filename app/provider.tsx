@@ -16,7 +16,7 @@ function Provider({
     return (
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
             <ConvexProvider client={convex}>
-                <AuthContext.Provider value={{user , setUser}}>
+                <AuthContext.Provider value={{ user, setUser }}>
                     <NextThemesProvider
                         attribute="class"
                         defaultTheme="light"
