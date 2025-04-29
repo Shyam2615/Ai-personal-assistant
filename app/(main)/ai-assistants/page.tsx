@@ -69,6 +69,7 @@ function AiAssistants() {
       records : selectedAssistant,
       uid : user?._id
     });
+    router.replace('/workspace')
     setLoading(false)
     console.log(result);
   }
