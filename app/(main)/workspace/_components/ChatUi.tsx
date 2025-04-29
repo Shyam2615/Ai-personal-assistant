@@ -28,13 +28,13 @@ function CharUi() {
   const {user, setUser} = useContext(AuthContext);
   const UpdateTokens = useMutation(api.users.UpdateTokens);
 
-  const onSendMessage = async () => {
+  const onSendMessage = async (messageText = input) => {  // Modified to accept a parameter with default value
     setLoading(true)
     setMessages(prev => [...prev, 
-      { role: 'user', content: input },
+      { role: 'user', content: messageText },  // Use messageText instead of input
       { role: 'assistant', content: 'Loading...' }
     ])
-    const userInput = input;
+    const userInput = messageText;  // Use messageText
     setInput('');
     const aiModel = AiModelOptions.find(item => item.name == assistant.aiModelId);
 
@@ -48,6 +48,11 @@ function CharUi() {
     setMessages(prev => [...prev, result.data])
     setLoading(false)
     updateUserToken(result.data?.content)
+  }
+
+  // Add this handler function for suggestions
+  const handleSuggestionClick = (suggestion : any) => {
+    onSendMessage(suggestion);
   }
 
   useEffect(() => {
@@ -80,7 +85,7 @@ function CharUi() {
 
   return (
     <div className='mt-20 p-6 relative h-[88vh]'>
-      {messages?.length == 0 && <EmptyChatState />}
+      {messages?.length == 0 && <EmptyChatState onSuggestionClick={handleSuggestionClick} />}  {/* Pass the handler */}
 
       <div ref={chatRef} className='h-[74vh] overflow-scroll'>
         {messages.map((msg, index) => (
